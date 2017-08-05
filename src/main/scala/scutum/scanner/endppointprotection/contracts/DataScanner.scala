@@ -25,7 +25,7 @@ object DataScanner {
   // example { TCP 8081 read}
   case class NetworkActivity(interface: String, port: Int, operation: FileOperations.Value)
 
-  // process and its network activity
+  // process and its activity
   case class ProcessActivity(process: Process, network: List[NetworkActivity], files: List[FilesActivity])
 
   // machine data
