@@ -1,8 +1,11 @@
 package scutum.scanner.endppointprotection.providers
 
 import java.io.{BufferedReader, InputStreamReader}
+import java.nio.file.Path
+
 import scutum.scanner.endppointprotection.contracts.DataScanner
 import scutum.scanner.endppointprotection.contracts.DataScanner._
+import java.nio.file.StandardWatchEventKinds._
 
 
 class DataScannerMac extends DataScanner {
