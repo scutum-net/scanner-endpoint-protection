@@ -6,14 +6,14 @@ public class Process {
     private String owner;
     private String path;
     private String hash;
-    private String size;
+    private long size;
 
     public Process(int id,
                    int parentId,
                    String owner,
                    String path,
                    String hash,
-                   String size) {
+                   long size) {
 
         this.setId(id);
         this.setParentId(parentId);
@@ -43,7 +43,7 @@ public class Process {
         return hash;
     }
 
-    public String getSize() {
+    public long getSize() {
         return size;
     }
 
@@ -51,7 +51,8 @@ public class Process {
         this.id = id;
     }
 
-    public void setParentId(int parentId) {this.parentId = parentId;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public void setOwner(String owner) {
@@ -66,7 +67,7 @@ public class Process {
         this.hash = hash;
     }
 
-    public void setSize(String size) {
+    public void setSize(long size) {
         this.size = size;
     }
 }
