@@ -1,6 +1,6 @@
 name := "scanner-endpoint-protection"
 version := "1.0"
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 
 resolvers ++= Seq(
   "spray repo" at "http://repo.spray.io",
