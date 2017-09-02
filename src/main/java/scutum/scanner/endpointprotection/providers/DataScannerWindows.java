@@ -1,7 +1,9 @@
 package scutum.scanner.endpointprotection.providers;
 
-import scutum.scanner.endpointprotection.contracts.IDataScanner;
-import scutum.scanner.endpointprotection.contracts.MachineData;
+import scutum.core.contracts.endpointprotection.ProcessData;
+import scutum.core.contracts.endpointprotection.MachineData;
+import scutum.core.contracts.endpointprotection.IDataScanner;
+import scutum.core.contracts.ScannedData;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +16,6 @@ import java.util.stream.Collectors;
 //import com.sun.jna.platform.win32.*;
 //import com.sun.jna.win32.W32APIOptions;
 
-import scutum.scanner.endpointprotection.contracts.Process;
 
 /**
  * Java class that monitors processes and their parents
@@ -28,10 +29,11 @@ public class DataScannerWindows implements IDataScanner {
 
     @Override
     public MachineData scan() {
+        ScannedData scannedData = new ScannedData(1,1,1,"");
         MachineData machineData = new MachineData("id", "customerId", 1, 3, LocalDateTime.now(), new ArrayList<>());
         try {
             // add processes from task manager
-            Collection<Process> processes = getPlainProcesses();
+            Collection<ProcessData> processes = getPlainProcesses();
 
             // add details - parent process id and full path on disk
             fillParentProcess(processes);
@@ -44,18 +46,18 @@ public class DataScannerWindows implements IDataScanner {
         return machineData;
     }
 
-    private Collection<Process> getPlainProcesses() throws IOException {
-        Collection<Process> processes = new ArrayList<>();
+    private Collection<ProcessData> getPlainProcesses() throws IOException {
+        Collection<ProcessData> processes = new ArrayList<>();
         Collection<String> lines = runCommand("tasklist /v /fi \"PID gt 1000\" /fo csv");
         lines.forEach(line -> {
             List<String> vals = Arrays.stream(line.split(",")).map(x -> x.replace("\"", "")).collect(Collectors.toList());
-            Process process1 = new Process(Integer.valueOf(vals.get(1)), -1, vals.get(6), vals.get(0), "123456l", 34234);
+            ProcessData process1 = new ProcessData(Integer.valueOf(vals.get(1)), -1, vals.get(6), vals.get(0), "123456l", 34234);
             processes.add(process1);
         });
         return processes;
     }
 
-    private void fillParentProcess(Collection<Process> processes) throws IOException {
+    private void fillParentProcess(Collection<ProcessData> processes) throws IOException {
 
         Set<String> lines = new HashSet<>();
         try {
@@ -71,7 +73,7 @@ public class DataScannerWindows implements IDataScanner {
         }
         lines.forEach(line -> {
             String[] vals = line.trim().replaceAll(" +", ",").split(",");
-            Optional<Process> poptional = processes.stream().filter(process -> process.getId() == Integer.valueOf(vals[vals.length-1])).findFirst();
+            Optional<ProcessData> poptional = processes.stream().filter(process -> process.getId() == Integer.valueOf(vals[vals.length-1])).findFirst();
             if (poptional.isPresent()) {
                 poptional.get().setParentId(Integer.valueOf(vals[vals.length-2]));
 
