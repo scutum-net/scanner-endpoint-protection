@@ -5,6 +5,7 @@ import com.google.inject.Guice
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.InjectorExtensions._
+import scutum.WebPublisher
 import scutum.core.contracts.endpointprotection.IDataScanner
 
 object Boot extends LazyLogging {
@@ -20,10 +21,15 @@ object Boot extends LazyLogging {
 
     val scanner = injector.instance[IDataScanner]
 
-    while(true){
+    val publisher = new WebPublisher(config.getString("conf.url"))
+
+    while (true) {
       Thread.sleep(config.getLong("conf.interval"))
-      val data =  serializer.toJson(scanner.scan())
+      val data = serializer.toJson(scanner.scan())
       logger.info(s"something happened $data")
+
+      val response = publisher.publish(data)
+      logger.info(s"response $response")
     }
   }
 }

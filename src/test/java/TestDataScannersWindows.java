@@ -1,5 +1,4 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import scutum.core.contracts.Alert;
 import scutum.core.contracts.ScannedData;
@@ -26,8 +25,8 @@ class TestDataScannerWindows {
     }
 
     @Test
-    void shouldAlert() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    void shouldAlert() {
+        Gson serializer = new Gson();
 
         DataProcessorWindows dataProcessorWindows = new DataProcessorWindows();
         List<ProcessData> processDataAlert = new ArrayList<>();
@@ -37,11 +36,11 @@ class TestDataScannerWindows {
         processDataNoAlert.add(new ProcessData(1, 2, "", "mspaint.exe", "", 2));
 
 
-        ScannedData scannedData = new ScannedData(1, 1, 1, objectMapper.writeValueAsString(processDataAlert));
+        ScannedData scannedData = new ScannedData(1, 1, 1, serializer.toJson(processDataAlert));
         Alert[] alerts = dataProcessorWindows.process(scannedData);
         assertEquals(1, alerts.length);
 
-        scannedData = new ScannedData(1, 1, 1, objectMapper.writeValueAsString(processDataNoAlert));
+        scannedData = new ScannedData(1, 1, 1, serializer.toJson(processDataNoAlert));
         alerts = dataProcessorWindows.process(scannedData);
         assertEquals(0, alerts.length);
     }
