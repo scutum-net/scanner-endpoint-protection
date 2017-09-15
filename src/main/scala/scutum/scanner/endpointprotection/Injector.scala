@@ -7,7 +7,7 @@ import com.google.inject._
 import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.ScalaModule
-import scutum.scanner.endpointprotection.contracts.IDataScanner
+import scutum.core.contracts.endpointprotection.IDataScanner
 import scutum.scanner.endpointprotection.providers.DataScannerMac
 
 class Injector extends AbstractModule with ScalaModule with LazyLogging {

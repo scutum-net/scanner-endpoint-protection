@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import scutum.scanner.endpointprotection.contracts.MachineData;
+import scutum.core.contracts.endpointprotection.MachineData;
 import scutum.scanner.endpointprotection.providers.DataScannerWindows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

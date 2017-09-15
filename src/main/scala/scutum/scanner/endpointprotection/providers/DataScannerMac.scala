@@ -2,8 +2,10 @@ package scutum.scanner.endpointprotection.providers
 
 import java.io._
 import java.time.LocalDateTime
+
+import scutum.core.contracts.endpointprotection.{IDataScanner, MachineData, ProcessData}
+
 import scala.collection.JavaConverters._
-import scutum.scanner.endpointprotection.contracts._
 
 class DataScannerMac(machineId: String, customerId: String, version: Int, scanType: Int) extends IDataScanner {
 
@@ -18,7 +20,7 @@ class DataScannerMac(machineId: String, customerId: String, version: Int, scanTy
   }
 
 
-  def getProcesses: List[Process] = {
+  def getProcesses: List[ProcessData] = {
     val input = new BufferedReader(new InputStreamReader(
       Runtime.getRuntime.exec("ps -ej").getInputStream))
 
@@ -35,8 +37,8 @@ class DataScannerMac(machineId: String, customerId: String, version: Int, scanTy
 
   private def isNotEndOfStream(x: String) = x != null
 
-  private def parseLine(x: String): Process = {
+  private def parseLine(x: String): ProcessData = {
     val params = x.split(" ", -1).filter(_ != "").toList
-    new Process(params(1).toInt, params(2).toInt, params(9), params.head, "", 0)
+    new ProcessData(params(1).toInt, params(2).toInt, params(9), params.head, "", 0)
   }
 }

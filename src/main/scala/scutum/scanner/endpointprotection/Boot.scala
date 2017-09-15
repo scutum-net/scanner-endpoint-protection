@@ -5,7 +5,7 @@ import com.google.inject.Guice
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.InjectorExtensions._
-import scutum.scanner.endpointprotection.contracts.IDataScanner
+import scutum.core.contracts.endpointprotection.IDataScanner
 
 object Boot extends LazyLogging {
   def main(args: Array[String]): Unit = {
