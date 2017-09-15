@@ -27,10 +27,21 @@ import java.util.stream.Collectors;
 //todo: add linux functionality ps -e -> https://stackoverflow.com/questions/54686/how-to-get-a-list-of-current-open-windows-process-with-java
 public class DataScannerWindows implements IDataScanner {
 
+    private final Integer scanType;
+    private final String hostName;
+    private final String customerName;
+    private final Integer version;
+
+    public DataScannerWindows(String hostName, String customerName, Integer  version, Integer scanType ) {
+        this.hostName = hostName;
+        this.customerName = customerName;
+        this.version = version;
+        this.scanType = scanType;
+    }
+
     @Override
     public MachineData scan() {
-        ScannedData scannedData = new ScannedData(1,1,1,"");
-        MachineData machineData = new MachineData("id", "customerId", 1, 3, LocalDateTime.now(), new ArrayList<>());
+        MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
         try {
             // add processes from task manager
             Collection<ProcessData> processes = getPlainProcesses();

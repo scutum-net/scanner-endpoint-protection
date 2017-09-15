@@ -8,7 +8,7 @@ import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.ScalaModule
 import scutum.core.contracts.endpointprotection.IDataScanner
-import scutum.scanner.endpointprotection.providers.DataScannerMac
+import scutum.scanner.endpointprotection.providers.{DataScannerMac, DataScannerWindows}
 
 class Injector extends AbstractModule with ScalaModule with LazyLogging {
 
@@ -30,9 +30,12 @@ class Injector extends AbstractModule with ScalaModule with LazyLogging {
     val hostName = InetAddress.getLocalHost().getHostName()
 
     val osName = System.getProperty("os.name").toLowerCase
-    if(osName.startsWith("mac os x")){
+    if (osName.startsWith("mac os x")) {
       new DataScannerMac(hostName, config.getString("conf.customerId"), 1, 1)
+    } else if (osName.startsWith("windows")) {
+      new DataScannerWindows(hostName, config.getString("conf.customerId"), 1, 1)
     }
+
     else throw new Exception(s"unknown os $osName")
   }
 
