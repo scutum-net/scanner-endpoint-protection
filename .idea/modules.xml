@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/master.iml" filepath="$PROJECT_DIR$/.idea/modules/master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/master-build.iml" filepath="$PROJECT_DIR$/.idea/modules/master-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scanner-endpoint-protection.iml" filepath="$PROJECT_DIR$/.idea/modules/scanner-endpoint-protection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scanner-endpoint-protection-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scanner-endpoint-protection-build.iml" />
     </modules>
   </component>
 </project>

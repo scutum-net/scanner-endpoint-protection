@@ -1,19 +1,25 @@
-import com.google.gson.Gson;
-import org.junit.jupiter.api.Test;
-import scutum.core.contracts.Alert;
-import scutum.core.contracts.ScannedData;
-import scutum.core.contracts.endpointprotection.MachineData;
-import scutum.core.contracts.endpointprotection.ProcessData;
-import scutum.scanner.endpointprotection.processors.DataProcessorWindows;
-import scutum.scanner.endpointprotection.providers.DataScannerWindows;
+/**
+ import com.google.gson.Gson;
+ import org.junit.jupiter.api.Test;
+ import scutum.core.contracts.Alert;
+ import scutum.core.contracts.ScannedData;
+ import scutum.core.contracts.endpointprotection.MachineData;
+ import scutum.core.contracts.endpointprotection.ProcessData;
+ import scutum.scanner.endpointprotection.processors.DataProcessorWindows;
+ import scutum.scanner.endpointprotection.providers.DataScannerWindows;
 
-import java.util.ArrayList;
-import java.util.List;
+ import java.util.ArrayList;
+ import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+ import static org.junit.jupiter.api.Assertions.assertEquals;
+ import static org.junit.jupiter.api.Assertions.assertNotNull;
+ import static org.junit.jupiter.api.Assertions.assertTrue;
 
+ **/
+
+
+
+/**
 class TestDataScannerWindows {
     @Test
     void shouldScan() {
@@ -45,3 +51,5 @@ class TestDataScannerWindows {
         assertEquals(0, alerts.length);
     }
 }
+
+ **/

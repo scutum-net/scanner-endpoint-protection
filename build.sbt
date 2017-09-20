@@ -18,3 +18,10 @@ libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.3" % "test"
 libraryDependencies += "com.typesafe.scala-logging" % "scala-logging_2.12" % "3.5.0"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.2"
 libraryDependencies += "me.scutum" % "scutum-core" % "1.3.2"
+
+
+assemblyMergeStrategy in assembly := {
+  case PathList("reference.conf") => MergeStrategy.concat
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
