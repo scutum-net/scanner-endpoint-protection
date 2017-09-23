@@ -1,8 +1,8 @@
 package scutum.scanner.endpointprotection.providers;
 
+import scutum.core.contracts.IScanner;
 import scutum.core.contracts.endpointprotection.ProcessData;
 import scutum.core.contracts.endpointprotection.MachineData;
-import scutum.core.contracts.endpointprotection.IDataScanner;
 import scutum.core.contracts.ScannedData;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 //todo: try to add dependencies
 //todo: make it more efficient
 //todo: add linux functionality ps -e -> https://stackoverflow.com/questions/54686/how-to-get-a-list-of-current-open-windows-process-with-java
-public class DataScannerWindows implements IDataScanner {
+public class DataScannerWindows implements IScanner {
 
     private final Integer scanType;
     private final String hostName;
@@ -40,7 +40,7 @@ public class DataScannerWindows implements IDataScanner {
     }
 
     @Override
-    public MachineData scan() {
+    public ScannedData scan() {
         MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
         try {
             // add processes from task manager
@@ -54,7 +54,7 @@ public class DataScannerWindows implements IDataScanner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return machineData;
+        return null;
     }
 
     private Collection<ProcessData> getPlainProcesses() throws IOException {

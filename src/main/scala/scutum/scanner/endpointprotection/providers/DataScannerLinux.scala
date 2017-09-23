@@ -1,7 +1,7 @@
 package scutum.scanner.endpointprotection.providers
 
-import scutum.core.contracts.endpointprotection.{IDataScanner, MachineData}
+import scutum.core.contracts.{IScanner, ScannedData}
 
-class DataScannerLinux extends IDataScanner {
-  override def scan(): MachineData = ???
+class DataScannerLinux extends IScanner {
+  override def scan(): ScannedData = ???
 }

@@ -3,7 +3,7 @@ package scutum.scanner.endpointprotection.processors;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import scutum.core.contracts.Alert;
-import scutum.core.contracts.Processor;
+import scutum.core.contracts.IProcessor;
 import scutum.core.contracts.ScannedData;
 import scutum.core.contracts.endpointprotection.ProcessData;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DataProcessorWindows implements Processor {
+public class DataProcessorWindows implements IProcessor {
     private final Gson serializer;
 
     public DataProcessorWindows() {

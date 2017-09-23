@@ -6,7 +6,7 @@ import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.InjectorExtensions._
 import scutum.WebPublisher
-import scutum.core.contracts.endpointprotection.IDataScanner
+import scutum.core.contracts.IScanner
 
 object Boot extends LazyLogging {
   def main(args: Array[String]): Unit = {
@@ -19,7 +19,7 @@ object Boot extends LazyLogging {
     val config = injector.instance[Config]
     logger.info("config loaded")
 
-    val scanner = injector.instance[IDataScanner]
+    val scanner = injector.instance[IScanner]
 
     val publisher = new WebPublisher(config.getString("conf.url"))
 

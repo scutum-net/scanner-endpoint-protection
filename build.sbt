@@ -17,7 +17,7 @@ libraryDependencies += "net.codingwell" % "scala-guice_2.12" % "4.1.0"
 libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.3" % "test"
 libraryDependencies += "com.typesafe.scala-logging" % "scala-logging_2.12" % "3.5.0"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.2"
-libraryDependencies += "me.scutum" % "scutum-core" % "1.3.2"
+libraryDependencies += "me.scutum" % "scutum-core" % "1.3.4"
 
 
 assemblyMergeStrategy in assembly := {
