@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class DataProcessorWindows implements IProcessor {
     private final Gson serializer;
@@ -19,9 +20,14 @@ public class DataProcessorWindows implements IProcessor {
         serializer = new Gson();
     }
 
+    private static Predicate<ProcessData> isSuspicious() {
+        return x -> (x.getPath().toLowerCase().contains("notepad")
+                || x.getPath().toLowerCase().contains("chrome"));
+    }
+
     @Override
     public Integer getProviderId() {
-        return 1;
+        return 9;
     }
 
     @Override
@@ -36,7 +42,7 @@ public class DataProcessorWindows implements IProcessor {
     }
 
     private Alert[] getAlerts(List<ProcessData> processes) {
-        Optional<ProcessData> alertedProcess = processes.stream().filter(x->x.getPath().toLowerCase().contains("notepad.exe")).findAny();
+        Optional<ProcessData> alertedProcess = processes.stream().filter(isSuspicious()).findAny();
         if (alertedProcess.isPresent()) {
             ProcessData processData = alertedProcess.get();
             String dataOutput = serializer.toJson(processData);
@@ -48,7 +54,6 @@ public class DataProcessorWindows implements IProcessor {
 
     private List<ProcessData> getProcesses(String jsonInput) {
         Type listType = new TypeToken<ArrayList<ProcessData>>() {}.getType();
-        List<ProcessData> processes = serializer.fromJson(jsonInput, listType);
-        return processes;
+        return serializer.fromJson(jsonInput, listType);
     }
 }

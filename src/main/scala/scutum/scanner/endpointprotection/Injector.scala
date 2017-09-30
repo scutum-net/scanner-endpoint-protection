@@ -8,7 +8,7 @@ import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
 import net.codingwell.scalaguice.ScalaModule
 import scutum.core.contracts.IScanner
-import scutum.scanner.endpointprotection.providers.DataScannerWindows
+import scutum.scanner.endpointprotection.providers.{DataScannerLinux, DataScannerWindows}
 
 class Injector extends AbstractModule with ScalaModule with LazyLogging {
 
@@ -29,6 +29,10 @@ class Injector extends AbstractModule with ScalaModule with LazyLogging {
   @Singleton def getScanners(@Inject config: Config): IScanner = {
     val hostName = InetAddress.getLocalHost().getHostName()
     val osName = System.getProperty("os.name").toLowerCase
-    new DataScannerWindows(hostName, config.getString("conf.customerId"), 1, 1)
+    if(osName.contains("linux")){
+      new DataScannerLinux(hostName, config.getString("conf.customerId"), 1, 1)
+    }else {
+      new DataScannerWindows(hostName, config.getString("conf.customerId"), 9, 9)
+    }
   }
 }

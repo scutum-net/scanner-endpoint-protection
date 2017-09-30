@@ -1,12 +1,13 @@
 package scutum.scanner.endpointprotection.providers;
 
+import com.google.gson.Gson;
 import scutum.core.contracts.IScanner;
 import scutum.core.contracts.endpointprotection.ProcessData;
 import scutum.core.contracts.endpointprotection.MachineData;
 import scutum.core.contracts.ScannedData;
+import scutum.scanner.endpointprotection.utils.ProcessHelper;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ import java.util.stream.Collectors;
 //todo: add file size
 //todo: try to add dependencies
 //todo: make it more efficient
-//todo: add linux functionality ps -e -> https://stackoverflow.com/questions/54686/how-to-get-a-list-of-current-open-windows-process-with-java
 public class DataScannerWindows implements IScanner {
 
     private final Integer scanType;
@@ -42,6 +42,7 @@ public class DataScannerWindows implements IScanner {
     @Override
     public ScannedData scan() {
         MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
+        String processData ;
         try {
             // add processes from task manager
             Collection<ProcessData> processes = getPlainProcesses();
@@ -54,16 +55,16 @@ public class DataScannerWindows implements IScanner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ScannedData(Integer.valueOf(customerName),1,"1",2,1, new Gson().toJson(machineData));
     }
 
     private Collection<ProcessData> getPlainProcesses() throws IOException {
         Collection<ProcessData> processes = new ArrayList<>();
-        Collection<String> lines = runCommand("tasklist /v /fi \"PID gt 1000\" /fo csv");
+        Collection<String> lines = ProcessHelper.runCommand("tasklist /v /fi \"PID gt 1000\" /fo csv");
         lines.forEach(line -> {
             List<String> vals = Arrays.stream(line.split(",")).map(x -> x.replace("\"", "")).collect(Collectors.toList());
-            ProcessData process1 = new ProcessData(Integer.valueOf(vals.get(1)), -1, vals.get(6), vals.get(0), "123456l", 34234);
-            processes.add(process1);
+            ProcessData process = new ProcessData(Integer.valueOf(vals.get(1)), -1, vals.get(6), vals.get(0), "123456l", 34234);
+            processes.add(process);
         });
         return processes;
     }
@@ -75,7 +76,7 @@ public class DataScannerWindows implements IScanner {
             char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
             for (char c : alphabet) {
                 String cmd = "cmd /c wmic process get processid,parentprocessid,executablepath|find \""+c+"\"";
-                Collection<String> currentLines = runCommand(cmd);
+                Collection<String> currentLines = ProcessHelper.runCommand(cmd);
                 currentLines.stream().filter(line->!line.isEmpty()).forEach(lines::add);
             }
 
@@ -101,23 +102,7 @@ public class DataScannerWindows implements IScanner {
     }
 
 
-    private Collection<String> runCommand(String runCommand) throws IOException {
-        Collection<String> lines = new ArrayList<>();
-        java.lang.Process process = Runtime.getRuntime().exec(runCommand);
-        Scanner scanner = new Scanner(new InputStreamReader(process.getInputStream()));
-        boolean isNoFirstLine = false;
-        while (scanner.hasNext()) {
-            String line = scanner.nextLine();
-            System.out.println(line);
 
-            if (isNoFirstLine) {
-                lines.add(line);
-            }
-            isNoFirstLine = true;
-        }
-        scanner.close();
-        return lines;
-    }
 
     //String name = ManagementFactory.getRuntimeMXBean().getName();
     //System.out.println(name);
