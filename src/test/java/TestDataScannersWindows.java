@@ -5,7 +5,7 @@
  import scutum.core.contracts.ScannedData;
  import scutum.core.contracts.endpointprotection.MachineData;
  import scutum.core.contracts.endpointprotection.ProcessData;
- import scutum.scanner.endpointprotection.processors.DataProcessorWindows;
+ import scutum.scanner.endpointprotection.processors.DataProcessorEndpoint;
  import scutum.scanner.endpointprotection.providers.DataScannerWindows;
 
  import java.util.ArrayList;
@@ -34,7 +34,7 @@ class TestDataScannerWindows {
     void shouldAlert() {
         Gson serializer = new Gson();
 
-        DataProcessorWindows dataProcessorWindows = new DataProcessorWindows();
+        DataProcessorEndpoint dataProcessorWindows = new DataProcessorEndpoint();
         List<ProcessData> processDataAlert = new ArrayList<>();
         processDataAlert.add(new ProcessData(1, 2, "", "notepad.exe", "", 2));
 

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class DataProcessorWindows implements IProcessor {
+public class DataProcessorEndpoint implements IProcessor {
     private final Gson serializer;
 
-    public DataProcessorWindows() {
+    public DataProcessorEndpoint() {
         serializer = new Gson();
     }
 

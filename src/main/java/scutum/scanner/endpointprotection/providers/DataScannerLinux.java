@@ -8,7 +8,6 @@ import scutum.core.contracts.ScannedData;
 import scutum.scanner.endpointprotection.utils.ProcessHelper;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -35,17 +34,18 @@ public class DataScannerLinux implements IScanner {
 
     @Override
     public ScannedData scan() {
-        MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
+        // MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
+        Collection<ProcessData> processes = new ArrayList<>();
         try {
             // add processes from task manager
-            Collection<ProcessData> processes = getPlainProcesses();
+            processes = getPlainProcesses();
 
             // add all to the final model
-            machineData.getProcesses().addAll(processes);
+            // machineData.getProcesses().addAll(processes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ScannedData(Integer.valueOf(customerName),9,"9",3,9, new Gson().toJson(machineData));
+        return new ScannedData(Integer.valueOf(customerName),9,"9",3,9, new Gson().toJson(processes));
     }
 
     private Collection<ProcessData> getPlainProcesses() throws IOException {

@@ -41,21 +41,22 @@ public class DataScannerWindows implements IScanner {
 
     @Override
     public ScannedData scan() {
-        MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
-        String processData ;
+        // MachineData machineData = new MachineData(hostName, customerName, version, scanType, LocalDateTime.now(), new ArrayList<>());
+        Collection<ProcessData> processes = new ArrayList<>();
+        // String processData ;
         try {
             // add processes from task manager
-            Collection<ProcessData> processes = getPlainProcesses();
+            processes = getPlainProcesses();
 
             // add details - parent process id and full path on disk
             fillParentProcess(processes);
 
             // add all to the final model
-            processes.forEach(process -> machineData.getProcesses().add(process));
+            //processes.addAll(processes);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ScannedData(Integer.valueOf(customerName),1,"1",2,1, new Gson().toJson(machineData));
+        return new ScannedData(Integer.valueOf(customerName),1,"1",2,1, new Gson().toJson(processes));
     }
 
     private Collection<ProcessData> getPlainProcesses() throws IOException {
